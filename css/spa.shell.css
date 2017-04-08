@@ -50,7 +50,17 @@
 .spa-x-closed .spa-shell-main-content {left : 0; }
 .spa-shell-foot { bottom : 0; left :0; right : 0; height : 40px;}
 .spa-shell-chat {
-    bottom :0; right :0; width : 300px; height : 15px; background : red; z-index :1;
+    bottom :0; 
+    right :0; 
+    width : 300px; 
+    height : 15px; 
+    background : red; 
+    z-index :1;
+    cursor: pointer;
+    border-radius: 5px 0 0 0;
+}
+.spa-shell-chat:hover {
+    background : #a00;
 }
 .spa-shell-modal {
     margin-top : -200px;
