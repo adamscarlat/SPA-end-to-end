@@ -1,0 +1,179 @@
+/*
+* spa.chat.css
+* Chat feature styles
+*/
+
+/*
+Define spa-chat class for the chat
+slider. We include subtle drop
+shadows. Like all other Chat selectors,
+we’ve converted to relative units
+*/
+.spa-chat {
+    position : absolute;
+    bottom : 0;
+    right : 0;
+    width : 25em;
+    height : 2em;
+    background : #fff;
+    border-radius : 0.5em 0 0 0;
+    border-style : solid;
+    border-width : thin 0 0 thin;
+    border-color : #888;
+    box-shadow : 0 0 0.75em 0 #888;
+    z-index : 1;
+}
+
+/*
+Add common rules for both the spachat-
+head and spa-chat-closer
+classes
+*/
+.spa-chat-head, .spa-chat-closer {
+    position : absolute;
+    top : 0;
+    height : 2em;
+    line-height : 1.8em;
+    border-bottom : thin solid #888;
+    cursor : pointer;
+    background : #888;
+    color : white;
+    font-family : arial, helvetica, sans-serif;
+    font-weight : 800;
+    text-align : center;
+}
+
+/*
+Add the unique rules for the spa-chathead
+class. We expect the element with
+this class will contain the spa-chathead-
+toggle and spa-chat-headtitle
+class elements.
+*/
+.spa-chat-head {
+    left : 0;
+    right : 2em;
+    border-radius : 0.3em 0 0 0;
+}
+
+
+/*
+Define a spa-chat-closer class to provide a little [x]
+on the top-right corner
+*/
+.spa-chat-closer {
+    right : 0;
+    width : 2em;
+}
+
+.spa-chat-closer:hover {
+    background : #800;
+}
+
+/*
+Create the spa-chat-head-title class. Again, as the
+name suggests, we expect that an element with this style
+will be contained within an element of the spa-chathead
+class.
+*/
+.spa-chat-head-toggle {
+    position : absolute;
+    top : 0;
+    left : 0;
+    width : 2em;
+    bottom : 0;
+    border-radius : 0.3em 0 0 0;
+}
+
+/*
+Define the spa-chat-sizer class
+so we can provide a fixed-size element
+to contain slider contents.
+*/
+.spa-chat-sizer {
+    position : absolute;
+    top : 2em;
+    left : 0;
+    right : 0;
+}
+
+/*
+Add the spa-chat-messages class to be used by an
+element where we expect chat messages to be displayed.
+*/
+.spa-chat-msgs {
+    position : absolute;
+    top : 1em;
+    left : 1em;
+    right : 1em;
+    bottom : 4em;
+    padding : 0.5em;
+    border : thin solid #888;
+    overflow-x : hidden;
+    overflow-y : scroll;
+}
+
+/*
+Create the spa-chat-box class for
+an element that we expect to contain
+an input field and the Send button.
+*/
+.spa-chat-box {
+    position : absolute;
+    height : 2em;
+    left : 1em;
+    right : 1em;
+    bottom : 1em;
+    border : thin solid #888;
+    background : #888;
+}
+
+/*
+Define a rule that styles “any text input inside
+of any element with the .spa-chat-box
+class.” This will be our chat input field.
+*/
+/*.spa-chat-box input[type=text] {
+float : left;
+width : 75%;
+height : 100%;
+padding : 0.5em;
+border : 0;
+background : #ddd;
+color : #404040;
+}*/
+
+/*
+Create a derived :focus pseudoclass
+so that when a user selects the
+input, contrast is increased
+*/
+.spa-chat-box input[type=text]:focus {
+    background : #fff;
+}
+
+/*
+Send button
+*/
+.spa-chat-box div {
+    float : left;
+    width : 25%;
+    height : 2em;
+    line-height : 1.9em;
+    text-align : center;
+    color : #fff;
+    font-weight : 800;
+    cursor : pointer;
+}
+
+/*
+Highlight send button when hover
+*/
+.spa-chat-box div:hover {
+    background-color: #444;
+    color : #ff0;
+}
+
+.spa-chat-head:hover .spa-chat-head-toggle {
+    background : #aaa;
+}

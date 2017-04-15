@@ -1,9 +1,16 @@
 <!doctype html>
 <html>
     <head>
+        <!-- ie9+ rendering support for latest standards -->
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
         <title>SPA Starter</title>
-        <!-- stylesheets -->
-        <link rel="stylesheet" href="css/spa.css" type="text/css"/>
+
+        <!-- third-party stylesheets -->
+
+        <!-- our stylesheets -->
+        <link rel="stylesheet" href="css/spa.chat.css" type="text/css"/>
         <link rel="stylesheet" href="css/spa.shell.css" type="text/css"/>
 
         <!-- third-party javascript -->
@@ -12,7 +19,10 @@
 
         <!-- our javascript. By depth of namespace -->
         <script src="js/spa.js" ></script>
+        <script src="js/spa.util.js" ></script>
+        <script src="js/spa.model.js"></script> 
         <script src="js/spa.shell.js"></script>
+        <script src="js/spa.chat.js" ></script>
         <script>
             // jQuery static function - runs the callback function after 
             // the DOM is ready
