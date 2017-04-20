@@ -23,18 +23,23 @@ spa.shell = (function () {
             + "<div class=\"spa-shell-foot\"><\/div>"
             + "<div class=\"spa-shell-modal\"><\/div>",
 
-            //chat slider configurations
-            chat_extend_time : 250, 
-            chat_retract_time : 300, 
-            chat_extend_height : 450, 
-            chat_retract_height : 15,
-            chat_extended_title  : 'Click to retract',
-            chat_retracted_title : 'Click to extend'
+        
+        //chat slider configurations
+        chat_extend_time : 250, 
+        chat_retract_time : 300, 
+        chat_extend_height : 450, 
+        chat_retract_height : 15,
+        chat_extended_title  : 'Click to retract',
+        chat_retracted_title : 'Click to extend',
+        resize_interval : 200,
+
     },
 
     //dynamic info shared accorss module
     stateMap  = { 
         anchor_map : {},
+        $container : undefined,
+        resize_idto : undefined
     },
 
     //cache for jQuery collection object- 
@@ -43,7 +48,7 @@ spa.shell = (function () {
 
     //module scope variables
     onclickChat, toggleChat, setJqueryMap, initModule, setChatAnchor,
-    copyAnchorMap, changeAnchorPart, onHashchange;
+    copyAnchorMap, changeAnchorPart, onHashchang, onResize;
 
     //----------------- END MODULE SCOPE VARIABLES ---------------
 
@@ -264,6 +269,19 @@ spa.shell = (function () {
     };
     // End Event handler /onClickChat/
 
+    // Begin Event handler /onResize/
+    onResize = function (){
+        if ( stateMap.resize_idto ){ return true; }
+
+        spa.chat.handleResize();
+            stateMap.resize_idto = setTimeout(
+            function (){ stateMap.resize_idto = undefined; },
+            configMap.resize_interval
+        );
+        return true;
+    };
+    // End Event handler /onResize/
+
     //-------------------- END EVENT HANDLERS --------------------
 
     //---------------------- BEGIN CALLBACKS ---------------------
@@ -335,6 +353,7 @@ spa.shell = (function () {
         //  2. anchor change event fires - this toggles their correct event handler
 
         $(window)
+            .bind( 'resize', onResize )
             .bind( 'hashchange', onHashchange ) //this bind is a jQuery function (not to be confused with the JS bind)
             .trigger( 'hashchange' );
         

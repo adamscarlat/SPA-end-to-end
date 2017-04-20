@@ -14,17 +14,29 @@ When the user clicks on the chat toggle button, the chat uses setChatAnchor call
 when the user clicks on the slider, the hashchange event is caught by the Shell, which dispatches to the onHashchange event handler.
 If the chat component of the URI anchor has changed, this routine calls spa.chat.setSliderPosition to request the new position.
 
+--Model
+The model is in charge to organize the data returned from the server as objects that can be added to the UI.
+Also, it has methods for user authentication. The model works with services that communicate with the server. 
+It publishes events at certain times. For example, upon successfult login:
+
+1. user supplies creds 
+2. model uses socket IO to pass data to server (also supplies a callback when backend auth is complete)
+3. when backend is done, callback runs and publishes the spa-login event. It sends the new user data as event parameters
+4. shell is subscribed to spa-login.
+
 
 */
 
 //spa namespace
 var spa = (function () {
+    'use strict';
     // housekeeping here ...
 
     // if we needed to configure the Shell,
     // we would invoke spa.shell.configModule first
 
     var initModule = function ( $container ) {
+        spa.model.initModule();
         spa.shell.initModule( $container );
     };
 
