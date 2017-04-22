@@ -19,11 +19,21 @@ The model is in charge to organize the data returned from the server as objects 
 Also, it has methods for user authentication. The model works with services that communicate with the server. 
 It publishes events at certain times. For example, upon successfult login:
 
+people model
 1. user supplies creds 
 2. model uses socket IO to pass data to server (also supplies a callback when backend auth is complete)
 3. when backend is done, callback runs and publishes the spa-login event. It sends the new user data as event parameters
 4. shell is subscribed to spa-login.
 
+chat model - new user
+1. a logged in user joins chat. the chat model subscribes a list-change callback with the server
+2. server respond to the new callback by firing it and sending it the new list of people (to all logged in users?)
+3. chat model updates its people's list accordingly
+
+chat model- messaging
+1. when a user logged in he registers callbacks on the sio. callbacks are: listchange and updatechat
+2. user chooses a chatee to chat with. this publishes an event spa-setchatee with old and new chattees as params
+3. user sends message to chatee. this emits an updatechat to sio. sio calls callback that was registered
 
 */
 
