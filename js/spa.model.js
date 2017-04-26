@@ -170,7 +170,7 @@ spa.model = (function () {
         chat = (function () {
         
             var
-            _publish_listchange, _publish_updatechat, is_chatee_online,
+            _publish_listchange, _publish_updatechat, is_chatee_online, update_avatar,
             _update_list, _leave_chat, join_chat, get_chatee, send_msg, set_chatee,
             
             chatee = null;
@@ -307,13 +307,27 @@ spa.model = (function () {
                 return true;
             };
 
+            /** update_avatar( <update_avtr_map> ) - send the
+             update_avtr_map to the backend. This results in an
+             an 'spa-listchange' event which publishes the updated
+             people list and avatar information (the css_map in the
+             person objects). The update_avtr_map must
+             have the form { person_id : person_id, css_map : css_map }*/
+            update_avatar = function ( avatar_update_map ) {
+                var sio = isFakeData ? spa.fake.mockSio : spa.data.getSio();
+                if ( sio ) {
+                    sio.emit( 'updateavatar', avatar_update_map );
+                }
+            };
+
 
             return {
                 _leave : _leave_chat,
                 join : join_chat,
                 get_chatee : get_chatee,
                 send_msg : send_msg,
-                set_chatee : set_chatee
+                set_chatee : set_chatee,
+                update_avatar : update_avatar
             };
 
         })();
