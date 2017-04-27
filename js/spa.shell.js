@@ -365,12 +365,21 @@ spa.shell = (function () {
         });
 
         // configure and initialize feature modules
+
+        //configure and initialize the chat feature
         spa.chat.configModule({
             set_chat_anchor : setChatAnchor,
             chat_model : spa.model.chat,
             people_model : spa.model.people
         });
         spa.chat.initModule( jqueryMap.$container );
+
+        //configure and initialize the avatar feature
+        spa.avtr.configModule({
+            chat_model : spa.model.chat,
+            people_model : spa.model.people
+        });
+        spa.avtr.initModule( jqueryMap.$nav );
 
         // Handle URI anchor change events.
         // This is done /after/ all feature modules are configured
