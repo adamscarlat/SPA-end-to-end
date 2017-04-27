@@ -10,7 +10,7 @@ spa.fake = (function () {
     //mock a server side id
     fakeIdSerial = 5;
     makeFakeId = function () {
-        return 'id_' + String( fakeIdSerial++ );
+        return 'id_' + String( fakeIdSerial );
     };
     
     //fake people list
