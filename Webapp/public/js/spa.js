@@ -46,6 +46,7 @@ var spa = (function () {
     // we would invoke spa.shell.configModule first
 
     var initModule = function ( $container ) {
+        spa.data.initModule();
         spa.model.initModule();
         spa.shell.initModule( $container );
     };
