@@ -58,7 +58,7 @@ clearIsOnline = function () {
     { is_online : true  },
     { is_online : false },
     function ( response_map ) {
-        console.log( 'All users set to offline', response_map );
+        console.log( 'All users set to offline');
     });
 };
 // ----------------- END UTILITY METHODS ------------------
@@ -96,7 +96,7 @@ constructObj = function ( obj_type, obj_map, callback ) {
               })
         }
         else {
-          response.send({
+          callback({
             error_msg  : 'Input document not valid',
             error_list : error_list
           });

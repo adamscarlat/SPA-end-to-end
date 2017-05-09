@@ -14,7 +14,8 @@
 'use strict';
 var
   configRoutes,
-  crud        = require( './crud' ),
+  crud = require( './crud' ),
+  chat = require( './chat' ),
   makeMongoId = crud.makeMongoId;
 // ------------- END MODULE SCOPE VARIABLES ---------------
 
@@ -75,6 +76,8 @@ configRoutes = function ( app, server ) {
         response.send( result_map ); 
       });
   });
+
+  chat.connect( server );
 };
 
 module.exports = { configRoutes : configRoutes };
