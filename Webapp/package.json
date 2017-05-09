@@ -1,9 +1,11 @@
-{
+{ 
   "name"    : "SPA",
   "version" : "0.0.3",
   "private" : true,
   "dependencies" : {
     "express"   : "3.2.x",
-    "socket.io" : "0.9.x"
+    "mongodb"   : "2.1.x",
+    "socket.io" : "0.9.x",
+    "JSV"       : "4.0.x"
   }
 }
