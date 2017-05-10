@@ -6,7 +6,7 @@
 // ------------ BEGIN MODULE SCOPE VARIABLES --------------
 'use strict';
 var
-  emitUserList, signIn, chatObj,
+  emitUserList, signIn, signOut, chatObj,
   socket = require( 'socket.io' ),
   crud   = require( './crud'    ),
 
@@ -14,6 +14,8 @@ var
   //map user id's to socket connections
   chatterMap = {};
 // ------------- END MODULE SCOPE VARIABLES ---------------
+
+// ---------------- BEGIN UTILITY METHODS -----------------
 
 // emitUserList - broadcast user list to all connected clients
 emitUserList = function ( io ) {
@@ -37,6 +39,7 @@ signIn = function ( io, user_map, socket ) {
     function ( result_map ) {
       emitUserList( io );
       user_map.is_online = true;
+      //After a user signs out, emit the new online people list to all connected clients
       socket.emit( 'userupdate', user_map );
     }
   );
@@ -46,7 +49,19 @@ signIn = function ( io, user_map, socket ) {
   socket.user_id = user_map._id;
 };
 
-// ---------------- BEGIN UTILITY METHODS -----------------
+// signOut - update is_online property and chatterMap
+//
+signOut = function ( io, user_id ) {
+  crud.update(
+    'user',
+    { '_id' : user_id },
+    { is_online : false },
+    function ( result_list ) { emitUserList( io ); }
+  );
+  delete chatterMap[ user_id ];
+};
+
+// ---------------- END UTILITY METHODS -----------------
 
 // ---------------- BEGIN PUBLIC METHODS ------------------
 chatObj = {
@@ -124,10 +139,66 @@ chatObj = {
             });
         });
         // End /adduser/ message handler
-        socket.on( 'updatechat',   function () {} );
-        socket.on( 'leavechat',    function () {} );
-        socket.on( 'disconnect',   function () {} );
-        socket.on( 'updateavatar', function () {} );
+
+        // Begin /updatechat/ message handler
+        // Summary : Handles messages for chat.
+        // Arguments : A single chat_map object.
+        // chat_map should have the following properties:
+        // dest_id = id of recipient
+        // dest_name = name of recipient
+        // sender_id = id of sender
+        // msg_text = message text
+        // Action :
+        // If the recipient is online, the chat_map is sent to her.
+        // If not, a 'user has gone offline' message is
+        // sent to the sender.
+        //
+        socket.on( 'updatechat',   function (chat_map) {
+          if ( chatterMap.hasOwnProperty( chat_map.dest_id ) ) {
+            //If the intended recipient is online (the user ID is in the chatterMap), forward the
+            //chat_map to the recipient client through the appropriate socket.
+            chatterMap[ chat_map.dest_id ].emit( 'updatechat', chat_map );
+          }
+          else {
+            //if user is not online, transmit back on the sender's socket the following message
+            socket.emit( 'updatechat', {
+              sender_id : chat_map.sender_id,
+              msg_text : chat_map.dest_name + ' has gone offline.'
+            });
+          }
+        }); 
+        // End /updatechat/ message handler
+
+        // Begin disconnect methods
+        socket.on( 'leavechat', function () {
+          console.log( '** user %s logged out **', socket.user_id);
+          signOut( io, socket.user_id );
+        });
+        socket.on( 'disconnect', function () {
+          console.log('** user %s closed browser window or tab **', socket.user_id); 
+          signOut( io, socket.user_id );
+        });
+        // End disconnect methods
+
+        // Begin /updateavatar/ message handler
+        // Summary : Handles client updates of avatars
+        // Arguments : A single avtr_map object.
+        // avtr_map should have the following properties:
+        // person_id = the id of the persons avatar to update
+        // css_map = the css map for top, left, and
+        // background-color
+        // Action :
+        // This handler updates the entry in MongoDB, and then
+        // broadcasts the revised people list to all clients.
+        //
+        socket.on( 'updateavatar', function ( avtr_map ) {
+          crud.update(
+            'user',
+            { '_id' : makeMongoId( avtr_map.person_id ) },
+            { css_map : avtr_map.css_map },
+            function ( result_list ) { emitUserList( io ); }
+          );
+        }); // End /updateavatar/ message handler
       }
     );
     // End io setup

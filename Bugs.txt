@@ -1,0 +1,18 @@
+1. Login gets stuck on processing when attempting login for the first time
+    a. open new tab 
+    b. attempt login (gets stuck)
+    c. logout
+    d. attempt login again (works)
+    -most probably a socket issue
+
+2. After second login user gets duplicate messages
+    a. login on tab a 
+    b. login on tab b
+    c. send message to tab a (message appears once as expected)
+    d. logout on tab a
+    e. login on tab a again
+    f. send a message to tab a (message appears twice)
+
+3. Attempt to login with a single letter name crashes the server (fo real dawg?!)
+    a. login with a single letter name (example: A)
+    b. see the error message in console
