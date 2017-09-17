@@ -2,6 +2,8 @@
 Single page application from the Mikowski book- https://www.manning.com/books/single-page-web-applications.
 A chat application that is based on websockets. 
 
+This repository is for educational purposes only.
+
 # Prerequisites
 
 - Mongo DB: the application requires Mongo DB in the backend. Installation instructions can be found at- 
